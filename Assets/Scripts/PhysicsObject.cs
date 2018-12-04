@@ -7,10 +7,10 @@ public class PhysicsObject : MonoBehaviour {
     public float minGroundNormalY = .65f;
     public float gravityModifier = 1f;
     public float inertiaFalloff = 5f;
+    public float resistance = 0.1f;
     public Vector2 inertia = Vector2.zero;
     public Vector2 targetVelocity;
-
-    protected bool overrideVelocity = false;
+    
     protected bool canJump = false;
     protected Vector2 velocity;
     protected bool grounded;
@@ -50,8 +50,7 @@ public class PhysicsObject : MonoBehaviour {
     protected void FixedUpdate()
     {
         velocity += gravityModifier * Physics2D.gravity * Time.deltaTime;
-        if (overrideVelocity) { velocity.x = targetVelocity.x; }
-        else { velocity += targetVelocity; }
+        velocity.x = targetVelocity.x;
         inertiaCalc = Time.deltaTime * inertiaFalloff;
         inertiaCalcX = velocity.x / inertiaFalloff;
         inertiaCalcY = velocity.y / inertiaFalloff;
@@ -108,6 +107,7 @@ public class PhysicsObject : MonoBehaviour {
         }
         velocity += inertia;
         inertia = inertiaMod;
+        if(Mathf.Abs(velocity.x) > resistance) { velocity.x += velocity.x > 0 ? -resistance : resistance; }
 
         grounded = false;
 
@@ -132,6 +132,10 @@ public class PhysicsObject : MonoBehaviour {
             }
             for(int i = 0; i < hitBufferList.Count; i++)
             {
+                if(hitBufferList[i].collider.GetComponent<PhysicsObject>() != null)
+                {
+                    hitBufferList[i].collider.GetComponent<PhysicsObject>().inertia += velocity * resistance;
+                }
                 Vector2 currentNormal = hitBufferList[i].normal;
                 if (currentNormal.y > minGroundNormalY)
                 {

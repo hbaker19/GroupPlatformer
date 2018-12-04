@@ -7,11 +7,6 @@ public class PlayerPhysObj : PhysicsObject {
     public float speed = 5;
     public float jumpTakeOffSpeed = 5;
 
-    private void Awake()
-    {
-        overrideVelocity = true;
-    }
-
     protected override void ComputeVelocity()
     {
         Vector2 move = Vector2.zero;

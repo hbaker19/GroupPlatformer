@@ -52,8 +52,8 @@ public class PhysicsObject : MonoBehaviour {
         velocity += gravityModifier * Physics2D.gravity * Time.deltaTime;
         velocity.x = targetVelocity.x;
         inertiaCalc = Time.deltaTime * inertiaFalloff;
-        inertiaCalcX = velocity.x / inertiaFalloff;
-        inertiaCalcY = velocity.y / inertiaFalloff;
+        inertiaCalcX = (velocity.x / inertiaFalloff) - inertia.x * 0.1f;
+        inertiaCalcY = (velocity.y / inertiaFalloff) - inertia.y * 1f;
         inertiaMod = inertia;
         if (inertiaMod.x != 0)
         {

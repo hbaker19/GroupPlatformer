@@ -8,7 +8,7 @@ public class PhysicsObject : MonoBehaviour {
     public float gravityModifier = 1f;
     public float inertiaFalloff = 5f;
     public float resistance = 0.1f;
-    public Vector2 inertia = Vector2.zero;
+    public float inertia = 0;
     public Vector2 targetVelocity;
     
     protected bool canJump = false;
@@ -17,7 +17,7 @@ public class PhysicsObject : MonoBehaviour {
     protected Vector2 groundNormal;
     protected Rigidbody2D rb;
     protected float inertiaCalc;
-    protected Vector2 inertiaMod;
+    protected float inertiaMod;
     protected float inertiaCalcX;
     protected float inertiaCalcY;
     protected ContactFilter2D contactFilter;
@@ -25,7 +25,7 @@ public class PhysicsObject : MonoBehaviour {
     protected List<RaycastHit2D> hitBufferList = new List<RaycastHit2D>(16);
 
     protected const float minMoveDistance = 0.001f;
-    protected const float shellRadius = 0.01f;
+    protected const float shellRadius = 0.05f;
 
     protected void OnEnable()
     {
@@ -51,61 +51,36 @@ public class PhysicsObject : MonoBehaviour {
     {
         velocity += gravityModifier * Physics2D.gravity * Time.deltaTime;
         velocity.x = targetVelocity.x;
+        velocity.y += targetVelocity.y;
         inertiaCalc = Time.deltaTime * inertiaFalloff;
-        inertiaCalcX = (velocity.x / inertiaFalloff) - inertia.x * 0.1f;
-        inertiaCalcY = (velocity.y / inertiaFalloff) - inertia.y * 1f;
-        inertiaMod = inertia;
-        if (inertiaMod.x != 0)
+        inertiaCalcX = (velocity.x / inertiaFalloff) - inertia * 0.1f;
+        inertiaMod = Mathf.Abs(inertia) > 10 ? 10 * Mathf.Sign(inertia) : inertia;
+        if (inertiaMod != 0)
         {
-            if (inertiaMod.x > 0)
+            if (inertiaMod > 0)
             {
-                if (inertiaMod.x - (inertiaCalc - (inertiaCalcX < 0 ? inertiaCalcX : 0)) < 0)
+                if (inertiaMod - (inertiaCalc - (inertiaCalcX < 0 ? inertiaCalcX : 0)) < 0)
                 {
-                    inertiaMod.x = 0;
+                    inertiaMod = 0;
                 }
                 else
                 {
-                    inertiaMod.x -= (inertiaCalc - (inertiaCalcX < 0 ? inertiaCalcX : 0));
+                    inertiaMod -= (inertiaCalc - (inertiaCalcX < 0 ? inertiaCalcX : 0));
                 }
             }
-            if (inertiaMod.x < 0)
+            if (inertiaMod < 0)
             {
-                if (inertiaMod.x + inertiaCalc + (inertiaCalcX > 0 ? inertiaCalcX : 0) > 0)
+                if (inertiaMod + inertiaCalc + (inertiaCalcX > 0 ? inertiaCalcX : 0) > 0)
                 {
-                    inertiaMod.x = 0;
+                    inertiaMod = 0;
                 }
                 else
                 {
-                    inertiaMod.x += inertiaCalc + (inertiaCalcX > 0 ? inertiaCalcX : 0);
+                    inertiaMod += inertiaCalc + (inertiaCalcX > 0 ? inertiaCalcX : 0);
                 }
             }
         }
-        if (inertiaMod.y != 0)
-        {
-            if (inertiaMod.y > 0)
-            {
-                if (inertiaMod.y - (inertiaCalc - (inertiaCalcY < 0 ? inertiaCalcY : 0)) < 0)
-                {
-                    inertiaMod.y = 0;
-                }
-                else
-                {
-                    inertiaMod.y -= (inertiaCalc - (inertiaCalcY < 0 ? inertiaCalcY : 0));
-                }
-            }
-            if (inertiaMod.y < 0)
-            {
-                if (inertiaMod.y + inertiaCalc + (inertiaCalcY > 0 ? inertiaCalcY : 0) > 0)
-                {
-                    inertiaMod.y = 0;
-                }
-                else
-                {
-                    inertiaMod.y += inertiaCalc + (inertiaCalcY > 0 ? inertiaCalcY : 0);
-                }
-            }
-        }
-        velocity += inertia;
+        velocity.x += inertia;
         inertia = inertiaMod;
         if(Mathf.Abs(velocity.x) > resistance) { velocity.x += velocity.x > 0 ? -resistance : resistance; }
 
@@ -134,9 +109,11 @@ public class PhysicsObject : MonoBehaviour {
             {
                 if(hitBufferList[i].collider.GetComponent<PhysicsObject>() != null)
                 {
-                    hitBufferList[i].collider.GetComponent<PhysicsObject>().inertia += velocity * resistance;
+                    hitBufferList[i].collider.GetComponent<PhysicsObject>().inertia += velocity.x * resistance;
                 }
                 Vector2 currentNormal = hitBufferList[i].normal;
+                Debug.DrawRay(transform.position, move.normalized, Color.blue);
+                Debug.DrawRay(hitBufferList[i].transform.position, currentNormal, Color.green);
                 if (currentNormal.y > minGroundNormalY)
                 {
                     grounded = true;

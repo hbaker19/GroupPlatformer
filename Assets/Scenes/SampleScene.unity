@@ -367,7 +367,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 174039121}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd603cb109df53449bbc7354565d75ef, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a1658f1019e90a4aa1889d71f00912f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   minGroundNormalY: 0.65
@@ -380,6 +380,7 @@ MonoBehaviour:
   paceDistance: 1
   speed: 3
   stopTime: 1
+  timerMax: 2
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -721,16 +722,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 798500992}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dcaadb3598fb1a4286f034b0928b72f, type: 3}
+  m_Script: {fileID: 11500000, guid: 3ed1b0d677a68434a9ac662d4b4bb2c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   minGroundNormalY: 0.65
   gravityModifier: 1
   inertiaFalloff: 5
-  resistance: 0.1
+  resistance: 0
   inertia: 0
   targetVelocity: {x: 0, y: 0}
-  speed: 5
 --- !u!1 &946989683
 GameObject:
   m_ObjectHideFlags: 0

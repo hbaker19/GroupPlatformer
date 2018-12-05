@@ -33,6 +33,7 @@ public class EnemyPhysObj : PhysicsObject {
             if (Mathf.Abs(gameObject.transform.position.x - homePosition.x) > paceDistance && home) { home = false; direction = -direction; isStopped = true; }
             else if (Mathf.Abs(gameObject.transform.position.x - homePosition.x) < paceDistance && !home) { home = true; }
         }
+        Action();
         if (isStopped)
         {
             targetVelocity.x = 0;
@@ -44,6 +45,8 @@ public class EnemyPhysObj : PhysicsObject {
             targetVelocity.x = speed * direction;
         }
     }
+
+    protected virtual void Action() { }
 
     private bool IsEmpty (RaycastHit2D[] arrayToCheck)
     {

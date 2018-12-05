@@ -6,17 +6,27 @@ public class PlayerPhysObj : PhysicsObject {
 
     public float speed = 5;
     public float jumpTakeOffSpeed = 5;
+    public bool isStopped = false;
+    public float direction = 1;
 
     protected override void ComputeVelocity()
     {
-        Vector2 move = Vector2.zero;
-        move.x = Input.GetAxis("Horizontal");
-        move.y = Input.GetAxis("Vertical");
-        if(Input.GetButtonDown("Jump") && grounded && canJump)
+        if (!isStopped)
         {
-            velocity.y += jumpTakeOffSpeed;
-            canJump = false;
+            Vector2 move = Vector2.zero;
+            move.x = Input.GetAxis("Horizontal");
+            move.y = Input.GetAxis("Vertical");
+            if (Input.GetButtonDown("Jump") && grounded && canJump)
+            {
+                velocity.y += jumpTakeOffSpeed;
+                canJump = false;
+            }
+            if(Mathf.Sign(move.x) != Mathf.Sign(direction) && move.x != 0) { direction = -direction; gameObject.GetComponent<BoxCollider2D>().offset = gameObject.GetComponent<BoxCollider2D>().offset * - 1; }
+            targetVelocity = move * speed;
         }
-        targetVelocity = move * speed;
+        else
+        {
+            if (!gameObject.GetComponent<PlayerMain>().isAttack) { isStopped = false; }
+        }
     }
 }

@@ -20,8 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4953470558728112}
   - component: {fileID: 212329759328965312}
+  - component: {fileID: 114326522163622056}
   - component: {fileID: 70311802734430568}
-  - component: {fileID: 114398765972458398}
   - component: {fileID: 114251900812446788}
   - component: {fileID: 50575733331505246}
   m_Layer: 0
@@ -51,9 +51,9 @@ Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1634841889783376}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
@@ -91,7 +91,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spin: 1000
---- !u!114 &114398765972458398
+--- !u!114 &114326522163622056
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,16 +99,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1634841889783376}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dcaadb3598fb1a4286f034b0928b72f, type: 3}
+  m_Script: {fileID: 11500000, guid: db5249df40f339744b17670cce252f94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minGroundNormalY: 0.65
-  gravityModifier: 1
-  inertiaFalloff: 5
-  resistance: 0.1
-  inertia: 0
-  targetVelocity: {x: 0, y: 0}
-  speed: 5
+  enemyProjectile: 1
 --- !u!212 &212329759328965312
 SpriteRenderer:
   m_ObjectHideFlags: 1

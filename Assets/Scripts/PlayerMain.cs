@@ -8,6 +8,7 @@ public class PlayerMain : MonoBehaviour {
     private float atkTimer = 0f;
     public float atkDuration = 0.5f;
     public int damage = 1;
+    public int health = 3;
 
     private void Awake()
     {

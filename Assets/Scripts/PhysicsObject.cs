@@ -35,7 +35,8 @@ public class PhysicsObject : MonoBehaviour {
     protected void Start()
     {
         contactFilter.useTriggers = false;
-        contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
+        LayerMask ignoreLayer = ~(1 << LayerMask.NameToLayer("Projectile"));
+        contactFilter.SetLayerMask(ignoreLayer & Physics2D.GetLayerCollisionMask(gameObject.layer));
         contactFilter.useLayerMask = true;
     }
 

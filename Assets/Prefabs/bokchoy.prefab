@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 70311802734430568}
   - component: {fileID: 114251900812446788}
   - component: {fileID: 50575733331505246}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: bokchoy
   m_TagString: Untagged
   m_Icon: {fileID: 0}

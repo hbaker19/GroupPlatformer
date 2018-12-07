@@ -9,12 +9,21 @@ public class PlayerPhysObj : PhysicsObject {
     public bool isStopped = false;
     public float direction = 1;
 
+    protected Animator animator;
+
+    protected virtual void Awake()
+    {
+        animator = gameObject.GetComponent<Animator>();
+    }
+
     protected override void ComputeVelocity()
     {
         if (!isStopped)
         {
             Vector2 move = Vector2.zero;
             move.x = Input.GetAxis("Horizontal");
+            if(move.x > 0) { animator.SetBool("FaceLeft", false); }
+            else if(move.x < 0) { animator.SetBool("FaceLeft", true); }
             move.y = Input.GetAxis("Vertical");
             if (Input.GetButtonDown("Jump") && grounded && canJump)
             {

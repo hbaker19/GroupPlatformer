@@ -9,12 +9,14 @@ public class EnemyPhysObj : PhysicsObject {
     private bool home = true;
     private Vector2 homePosition;
 
+    public bool canAttack = true;
+
     public float speed = 3;
     private Vector2 fallCheck = new Vector2(0.25f, -1f);
     private RaycastHit2D[] fallBuffer = new RaycastHit2D[16];
     protected int direction = -1;
-    protected bool isStopped = false;
-    private float stopTimer = 0f;
+    public bool isStopped = false;
+    public float stopTimer = 0f;
     public float stopTime = 1f;
 
     protected virtual void Awake()
@@ -38,7 +40,7 @@ public class EnemyPhysObj : PhysicsObject {
         {
             targetVelocity.x = 0;
             stopTimer += Time.deltaTime;
-            if(stopTimer >= stopTime) { isStopped = false; stopTimer = 0; }
+            if(stopTimer >= stopTime) { isStopped = false; stopTimer = 0; canAttack = true; }
         }
         else
         {

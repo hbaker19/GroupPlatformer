@@ -1,1 +1,1 @@
-Files pushed to Github but not implemented through Unity go here. (I think)
+Files pushed to Github but not implemented through Unity go here.

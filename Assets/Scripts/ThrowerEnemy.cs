@@ -23,7 +23,7 @@ public class ThrowerEnemy : EnemyPhysObj {
         Physics2D.Raycast(gameObject.transform.position, player.transform.position - gameObject.transform.position, contactFilter, playerHitBuffer, viewDistance);
         if (playerHitBuffer[0].collider != null)
         {
-            if (playerHitBuffer[0].collider.gameObject.name == "Player")
+            if (playerHitBuffer[0].collider.gameObject.name == "Player" && canAttack)
             {
                 isStopped = true;
                 timer += Time.deltaTime;

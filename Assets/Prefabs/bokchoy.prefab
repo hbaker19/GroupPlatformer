@@ -103,6 +103,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyProjectile: 1
+  damage: 1
+  despawnTime: 2
 --- !u!212 &212329759328965312
 SpriteRenderer:
   m_ObjectHideFlags: 1

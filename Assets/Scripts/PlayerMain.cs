@@ -15,6 +15,10 @@ public class PlayerMain : MonoBehaviour, IDamageable {
     private float guaranteeTimer = 0f;
     private GameObject winter;
     private GameObject spring;
+    private float shootTimer = 0f;
+    public float shootTime = 1f;
+    public float projectileSpeed = 5f;
+    public GameObject nuggetProjectile;
     //private Animator animator;
 
     private void Awake()
@@ -47,7 +51,7 @@ public class PlayerMain : MonoBehaviour, IDamageable {
             gameObject.GetComponent<PlayerPhysObj>().isStopped = true;
             isAttack = true;
         }
-        if (Input.GetButtonDown("Fire2"))
+        if (Input.GetButtonDown("Fire3"))
         {
             if (isWinter)
             {
@@ -61,6 +65,15 @@ public class PlayerMain : MonoBehaviour, IDamageable {
                 spring.SetActive(true);
                 winter.SetActive(false);
             }
+        }
+        shootTimer += Time.deltaTime;
+        if(Input.GetButtonDown("Fire2") && shootTimer >= shootTime)
+        {
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePosition.z = 0;
+            Debug.Log(mousePosition);
+            GameObject projectile = (GameObject)Instantiate(nuggetProjectile, gameObject.transform.position + (mousePosition - gameObject.transform.position).normalized, Quaternion.identity);
+            projectile.GetComponent<Rigidbody2D>().velocity += ((Vector2)mousePosition - (Vector2)gameObject.transform.position + Vector2.up).normalized * projectileSpeed;
         }
     }
 

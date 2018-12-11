@@ -218,6 +218,10 @@ MonoBehaviour:
   atkDuration: 0.5
   damage: 1
   health: 3
+  shootTime: 1
+  projectileSpeed: 5
+  nuggetProjectile: {fileID: 1767174208873424, guid: b569c58d413676c4e960d370e30f2cda,
+    type: 2}
 --- !u!114 &114914884185689630
 MonoBehaviour:
   m_ObjectHideFlags: 1

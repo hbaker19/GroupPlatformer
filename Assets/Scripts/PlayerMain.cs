@@ -69,10 +69,12 @@ public class PlayerMain : MonoBehaviour, IDamageable {
         shootTimer += Time.deltaTime;
         if(Input.GetButtonDown("Fire2") && shootTimer >= shootTime)
         {
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            var mousePos = Input.mousePosition;
+            mousePos.z = 10;
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(mousePos);
             mousePosition.z = 0;
             GameObject projectile = (GameObject)Instantiate(nuggetProjectile, gameObject.transform.position + (mousePosition - gameObject.transform.position).normalized, Quaternion.identity);
-            projectile.GetComponent<Rigidbody2D>().velocity += ((Vector2)mousePosition - (Vector2)gameObject.transform.position + Vector2.up).normalized * projectileSpeed;
+            projectile.GetComponent<Rigidbody2D>().velocity += ((Vector2)mousePosition - (Vector2)gameObject.transform.position).normalized * projectileSpeed;
             shootTimer = 0;
         }
     }

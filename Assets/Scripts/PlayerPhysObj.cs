@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerPhysObj : PhysicsObject {
 
     public float speed = 5;
+    public float climbSpeed = 3;
     public float jumpTakeOffSpeed = 5;
     public bool isStopped = false;
     public float direction = 1;
@@ -14,6 +15,7 @@ public class PlayerPhysObj : PhysicsObject {
     protected virtual void Awake()
     {
         animator = gameObject.GetComponent<Animator>();
+        canClimb = true;
     }
 
     protected override void ComputeVelocity()
@@ -29,9 +31,15 @@ public class PlayerPhysObj : PhysicsObject {
             {
                 velocity.y += jumpTakeOffSpeed;
                 canJump = false;
+                isJumping = true;
+            }
+            if(Input.GetButtonUp("Jump") && isJumping)
+            {
+                velocity.y = velocity.y / 2;
             }
             if(Mathf.Sign(move.x) != Mathf.Sign(direction) && move.x != 0) { direction = -direction; gameObject.GetComponent<BoxCollider2D>().offset = gameObject.GetComponent<BoxCollider2D>().offset * - 1; }
-            targetVelocity = move * speed;
+            targetVelocity.x = move.x * speed;
+            overrideVelocity.y = move.y * climbSpeed;
         }
         else
         {

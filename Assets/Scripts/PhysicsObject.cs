@@ -10,8 +10,12 @@ public class PhysicsObject : MonoBehaviour {
     public float resistance = 0.1f;
     public float inertia = 0;
     public Vector2 targetVelocity;
+    public Vector2 overrideVelocity;
     
+    protected bool isClimbing = false;
+    protected bool canClimb = false;
     protected bool canJump = false;
+    protected bool isJumping = false;
     protected Vector2 velocity;
     protected bool grounded;
     protected Vector2 groundNormal;
@@ -23,6 +27,8 @@ public class PhysicsObject : MonoBehaviour {
     protected ContactFilter2D contactFilter;
     protected RaycastHit2D[] hitBuffer = new RaycastHit2D[16];
     protected List<RaycastHit2D> hitBufferList = new List<RaycastHit2D>(16);
+
+    private bool climbObjectInList = false;
 
     protected const float minMoveDistance = 0.001f;
     protected const float shellRadius = 0.05f;
@@ -43,6 +49,7 @@ public class PhysicsObject : MonoBehaviour {
     protected void Update()
     {
         targetVelocity = Vector2.zero;
+        overrideVelocity = Vector2.zero;
         ComputeVelocity();
     }
 
@@ -52,7 +59,8 @@ public class PhysicsObject : MonoBehaviour {
     {
         velocity += gravityModifier * Physics2D.gravity * Time.deltaTime;
         velocity.x = targetVelocity.x;
-        velocity.y += targetVelocity.y;
+        if (isClimbing) { velocity.y = overrideVelocity.y; }
+        else { velocity.y += targetVelocity.y; }
         inertiaCalc = Time.deltaTime * inertiaFalloff;
         inertiaCalcX = (velocity.x / inertiaFalloff) - inertia * 0.1f;
         inertiaMod = Mathf.Abs(inertia) > 10 ? 10 * Mathf.Sign(inertia) : inertia;
@@ -87,6 +95,7 @@ public class PhysicsObject : MonoBehaviour {
 
         grounded = false;
 
+        climbObjectInList = false;
         Vector2 deltaPosition = velocity * Time.deltaTime;
         Vector2 moveAlongGround = new Vector2(groundNormal.y, -groundNormal.x);
         Vector2 move = moveAlongGround * deltaPosition.x;
@@ -115,6 +124,7 @@ public class PhysicsObject : MonoBehaviour {
                 Vector2 currentNormal = hitBufferList[i].normal;
                 Debug.DrawRay(transform.position, move.normalized, Color.blue);
                 Debug.DrawRay(hitBufferList[i].transform.position, currentNormal, Color.green);
+                if(move.y < 0) { isJumping = false; }
                 if (currentNormal.y > minGroundNormalY)
                 {
                     grounded = true;
@@ -132,6 +142,12 @@ public class PhysicsObject : MonoBehaviour {
                 }
                 float modifiedDistance = hitBufferList[i].distance - shellRadius;
                 distance = modifiedDistance < distance ? modifiedDistance : distance;
+                if (hitBufferList[i].collider.tag == "Climbable" && canClimb && move.y >= 0) { climbObjectInList = true; }
+            }
+            if (canClimb)
+            {
+                if (climbObjectInList) { isClimbing = true; }
+                else { isClimbing = false; }
             }
         }
         rb.position = rb.position + move.normalized * distance;

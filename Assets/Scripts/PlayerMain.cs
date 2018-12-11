@@ -71,9 +71,9 @@ public class PlayerMain : MonoBehaviour, IDamageable {
         {
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePosition.z = 0;
-            Debug.Log(mousePosition);
             GameObject projectile = (GameObject)Instantiate(nuggetProjectile, gameObject.transform.position + (mousePosition - gameObject.transform.position).normalized, Quaternion.identity);
             projectile.GetComponent<Rigidbody2D>().velocity += ((Vector2)mousePosition - (Vector2)gameObject.transform.position + Vector2.up).normalized * projectileSpeed;
+            shootTimer = 0;
         }
     }
 

@@ -26,6 +26,8 @@ public class PlayerPhysObj : PhysicsObject {
             move.x = Input.GetAxis("Horizontal");
             if(move.x > 0) { animator.SetBool("FaceLeft", false); }
             else if(move.x < 0) { animator.SetBool("FaceLeft", true); }
+            if (Mathf.Abs(move.x) > 0.1f) { animator.SetBool("IsMoving", true); }
+            else { animator.SetBool("IsMoving", false); }
             move.y = Input.GetAxis("Vertical");
             if (Input.GetButtonDown("Jump") && grounded && canJump)
             {

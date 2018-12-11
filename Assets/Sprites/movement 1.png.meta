@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 775f1aa4e623b304282c65bff5b4d4ec
+guid: b9ee14c5f5699364bbb944c64ecb1648
 TextureImporter:
   fileIDToRecycleName:
     21300000: movement_0
@@ -10,6 +10,14 @@ TextureImporter:
     21300010: movement_5
     21300012: movement_6
     21300014: movement_7
+    21300016: movement 1_0
+    21300018: movement 1_1
+    21300020: movement 1_2
+    21300022: movement 1_3
+    21300024: movement 1_4
+    21300026: movement 1_5
+    21300028: movement 1_6
+    21300030: movement 1_7
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -92,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: movement_0
+      name: movement 1_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 640
+        y: 639.3334
         width: 320
-        height: 320
+        height: 319.66666
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -106,19 +114,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b80fcb5b481d8c24686b3d4e0191b53f
+      spriteID: b807cd8d9746b6d42a1de770665f2150
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: movement_1
+      name: movement 1_1
       rect:
         serializedVersion: 2
         x: 320
-        y: 640
+        y: 639.3334
         width: 320
-        height: 320
+        height: 319.66666
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -126,19 +134,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 28e711a07efa634468b734ba7c9d332b
+      spriteID: 3defe68804566f942a1effa60bcb0046
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: movement_2
+      name: movement 1_2
       rect:
         serializedVersion: 2
         x: 640
-        y: 640
+        y: 639.3334
         width: 320
-        height: 320
+        height: 319.66666
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -146,19 +154,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ba07ea52658e72e45aa4b1f6f5179775
+      spriteID: de7ecdd885df4354985c5f0d9aefa78b
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: movement_3
+      name: movement 1_3
       rect:
         serializedVersion: 2
         x: 0
-        y: 320
+        y: 320.33334
         width: 320
-        height: 320
+        height: 319.66666
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -166,19 +174,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d5af3f7b4343d0d4db1d1b6cca8bc132
+      spriteID: eaf9ecaf346938d46ba39cd651a8773d
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: movement_4
+      name: movement 1_4
       rect:
         serializedVersion: 2
         x: 320
-        y: 320
+        y: 320.33334
         width: 320
-        height: 320
+        height: 319.66666
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -186,19 +194,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 080e1b3079ce0ec439531861f285f6db
+      spriteID: 1f8356c817095164b989389215e00e66
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: movement_5
+      name: movement 1_5
       rect:
         serializedVersion: 2
         x: 640
-        y: 320
+        y: 320.33334
         width: 320
-        height: 320
+        height: 319.66666
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -206,39 +214,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5d21ceb33b3148240b397d23c07328c5
+      spriteID: 49daab18a6591fe4090751b560ce4f6f
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: movement_6
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 320
-        height: 320
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c6a6ec7f8e8a9ee45ba0a0ef6725afc1
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: movement_7
+      name: movement 1_6
       rect:
         serializedVersion: 2
         x: 320
-        y: 0
+        y: 1.3333435
         width: 320
-        height: 320
+        height: 319.66666
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -246,7 +234,27 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aaf30674ea10bf14f9ff55c4ef6be631
+      spriteID: 051f543631e1a6e4390dc6a8db28c93d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: movement 1_7
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 1.3333435
+        width: 320
+        height: 319.66666
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 89523e6d070eb7048b79423520087a61
       vertices: []
       indices: 
       edges: []

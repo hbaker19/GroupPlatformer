@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class EnemyPhysObj : PhysicsObject {
 
+    public bool moves = true;
     public bool paces = false;
     public float paceDistance = 3f;
     private bool home = true;
     private Vector2 homePosition;
-    private Animator animator;
+    protected Animator animator;
 
     public bool canAttack = true;
 
@@ -31,28 +32,31 @@ public class EnemyPhysObj : PhysicsObject {
 
     protected override void ComputeVelocity()
     {
-        if (Mathf.Sign(direction) != Mathf.Sign(fallCheck.x)) { fallCheck.x = -fallCheck.x; }
-        Physics2D.Raycast(gameObject.transform.position, fallCheck, contactFilter, fallBuffer, fallCheckDistance);
-        if (IsEmpty(fallBuffer)) { direction = -direction; isStopped = true; }
-        System.Array.Clear(fallBuffer, 0, fallBuffer.Length);
-        if (paces)
-        {
-            if (Mathf.Abs(gameObject.transform.position.x - homePosition.x) > paceDistance && home) { home = false; direction = -direction; isStopped = true; }
-            else if (Mathf.Abs(gameObject.transform.position.x - homePosition.x) < paceDistance && !home) { home = true; }
-        }
         Action();
-        if (isStopped || isAttacked)
+        if (moves)
         {
-            targetVelocity.x = 0;
-            stopTimer += Time.deltaTime;
-            if(stopTimer >= (isAttacked ? hitStopTimer : stopTime)) { isStopped = false; isAttacked = false; stopTimer = 0; canAttack = true; }
+            if (Mathf.Sign(direction) != Mathf.Sign(fallCheck.x)) { fallCheck.x = -fallCheck.x; }
+            Physics2D.Raycast(gameObject.transform.position, fallCheck, contactFilter, fallBuffer, fallCheckDistance);
+            if (IsEmpty(fallBuffer)) { direction = -direction; isStopped = true; }
+            System.Array.Clear(fallBuffer, 0, fallBuffer.Length);
+            if (paces)
+            {
+                if (Mathf.Abs(gameObject.transform.position.x - homePosition.x) > paceDistance && home) { home = false; direction = -direction; isStopped = true; }
+                else if (Mathf.Abs(gameObject.transform.position.x - homePosition.x) < paceDistance && !home) { home = true; }
+            }
+            if (isStopped || isAttacked)
+            {
+                targetVelocity.x = 0;
+                stopTimer += Time.deltaTime;
+                if (stopTimer >= (isAttacked ? hitStopTimer : stopTime)) { isStopped = false; isAttacked = false; stopTimer = 0; canAttack = true; }
+            }
+            else
+            {
+                targetVelocity.x = speed * direction;
+            }
+            if (targetVelocity.x > 0) { animator.SetBool("FaceRight", true); }
+            if (targetVelocity.x < 0) { animator.SetBool("FaceRight", false); }
         }
-        else
-        {
-            targetVelocity.x = speed * direction;
-        }
-        if (targetVelocity.x > 0) { animator.SetBool("FaceRight", true); }
-        if (targetVelocity.x < 0) { animator.SetBool("FaceRight", false); }
     }
 
     protected virtual void Action() { }

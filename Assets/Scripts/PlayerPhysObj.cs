@@ -39,7 +39,7 @@ public class PlayerPhysObj : PhysicsObject {
             {
                 velocity.y = velocity.y / 2;
             }
-            if(Mathf.Sign(move.x) != Mathf.Sign(direction) && move.x != 0) { direction = -direction; gameObject.GetComponent<BoxCollider2D>().offset = gameObject.GetComponent<BoxCollider2D>().offset * - 1; }
+            if(Mathf.Sign(move.x) != Mathf.Sign(direction) && move.x != 0) { direction = -direction; }
             targetVelocity.x = move.x * speed;
             overrideVelocity.y = move.y * climbSpeed;
         }

@@ -29,6 +29,7 @@ public class PhysicsObject : MonoBehaviour {
     protected List<RaycastHit2D> hitBufferList = new List<RaycastHit2D>(16);
 
     private bool climbObjectInList = false;
+    private float time;
 
     protected const float minMoveDistance = 0.001f;
     protected const float shellRadius = 0.05f;
@@ -40,10 +41,10 @@ public class PhysicsObject : MonoBehaviour {
 
     protected void Start()
     {
-        contactFilter.useTriggers = false;
         LayerMask ignoreLayer = ~(1 << LayerMask.NameToLayer("Projectile"));
         contactFilter.SetLayerMask(ignoreLayer & Physics2D.GetLayerCollisionMask(gameObject.layer));
         contactFilter.useLayerMask = true;
+        contactFilter.useTriggers = false;
     }
 
     protected void Update()
@@ -57,11 +58,12 @@ public class PhysicsObject : MonoBehaviour {
 
     protected void FixedUpdate()
     {
-        velocity += gravityModifier * Physics2D.gravity * Time.deltaTime;
+        time = Time.deltaTime;
+        velocity += gravityModifier * Physics2D.gravity * time;
         velocity.x = targetVelocity.x;
         if (isClimbing) { velocity.y = overrideVelocity.y; }
         else { velocity.y += targetVelocity.y; }
-        inertiaCalc = Time.deltaTime * inertiaFalloff;
+        inertiaCalc = time * inertiaFalloff;
         inertiaCalcX = (velocity.x / inertiaFalloff) - inertia * 0.1f;
         inertiaMod = Mathf.Abs(inertia) > 10 ? 10 * Mathf.Sign(inertia) : inertia;
         if (inertiaMod != 0)
@@ -96,7 +98,7 @@ public class PhysicsObject : MonoBehaviour {
         grounded = false;
 
         climbObjectInList = false;
-        Vector2 deltaPosition = velocity * Time.deltaTime;
+        Vector2 deltaPosition = velocity * time;
         Vector2 moveAlongGround = new Vector2(groundNormal.y, -groundNormal.x);
         Vector2 move = moveAlongGround * deltaPosition.x;
         Movement(move, false);
@@ -120,6 +122,7 @@ public class PhysicsObject : MonoBehaviour {
                 if(hitBufferList[i].collider.GetComponent<PhysicsObject>() != null)
                 {
                     hitBufferList[i].collider.GetComponent<PhysicsObject>().inertia += velocity.x * resistance;
+                    if(hitBufferList[i].collider.GetComponent<EnemyPhysObj>() != null && gameObject.GetComponent<PlayerMain>() != null) { gameObject.GetComponent<PlayerMain>().TakeDamage(1); }
                 }
                 Vector2 currentNormal = hitBufferList[i].normal;
                 Debug.DrawRay(transform.position, move.normalized, Color.blue);

@@ -26,6 +26,11 @@ public class Projectile : MonoBehaviour {
     {
         if(collision.gameObject.name == "Player" && enemyProjectile) { collision.gameObject.GetComponent<PlayerMain>().TakeDamage(damage); }
         if(collision.gameObject.tag == "Enemy" && !enemyProjectile) { collision.gameObject.GetComponent<EnemyHealth>().TakeDamage(damage); }
+        Despawn();
+    }
+
+    public void Despawn()
+    {
         gameObject.GetComponent<Collider2D>().enabled = false;
         despawn = true;
     }

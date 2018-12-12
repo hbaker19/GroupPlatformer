@@ -21,9 +21,9 @@ GameObject:
   - component: {fileID: 4654140860474064}
   - component: {fileID: 212079524774152838}
   - component: {fileID: 114914884185689630}
+  - component: {fileID: 114610847545238010}
   - component: {fileID: 50492844220371574}
   - component: {fileID: 70183900620373230}
-  - component: {fileID: 114610847545238010}
   - component: {fileID: 61017394857493898}
   - component: {fileID: 95711107207982296}
   m_Layer: 8
@@ -222,6 +222,7 @@ MonoBehaviour:
   projectileSpeed: 10
   nuggetProjectile: {fileID: 1767174208873424, guid: b569c58d413676c4e960d370e30f2cda,
     type: 2}
+  ammunition: 0
 --- !u!114 &114914884185689630
 MonoBehaviour:
   m_ObjectHideFlags: 1

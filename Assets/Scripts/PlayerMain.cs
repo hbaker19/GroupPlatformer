@@ -19,6 +19,7 @@ public class PlayerMain : MonoBehaviour, IDamageable {
     public float shootTime = 1f;
     public float projectileSpeed = 5f;
     public GameObject nuggetProjectile;
+    public int ammunition = 0;
     //private Animator animator;
 
     private void Awake()
@@ -67,7 +68,7 @@ public class PlayerMain : MonoBehaviour, IDamageable {
             }
         }
         shootTimer += Time.deltaTime;
-        if(Input.GetButtonDown("Fire2") && shootTimer >= shootTime)
+        if(Input.GetButtonDown("Fire2") && shootTimer >= shootTime && ammunition > 0)
         {
             var mousePos = Input.mousePosition;
             mousePos.z = 10;
@@ -76,6 +77,7 @@ public class PlayerMain : MonoBehaviour, IDamageable {
             GameObject projectile = (GameObject)Instantiate(nuggetProjectile, gameObject.transform.position + (mousePosition - gameObject.transform.position).normalized, Quaternion.identity);
             projectile.GetComponent<Rigidbody2D>().velocity += ((Vector2)mousePosition - (Vector2)gameObject.transform.position).normalized * projectileSpeed;
             shootTimer = 0;
+            ammunition--;
         }
     }
 

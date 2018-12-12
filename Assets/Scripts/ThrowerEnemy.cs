@@ -30,6 +30,7 @@ public class ThrowerEnemy : EnemyPhysObj {
                 if (timer >= timerMax)
                 {
                     timer = 0;
+                    animator.SetTrigger("Throw");
                     GameObject projectile = (GameObject)Instantiate(enemyProjectile, gameObject.transform.position + (player.transform.position - gameObject.transform.position).normalized, Quaternion.identity);
                     projectile.GetComponent<Rigidbody2D>().velocity += ((Vector2)player.transform.position - (Vector2)gameObject.transform.position + Vector2.up).normalized * projectileSpeed;
                 }

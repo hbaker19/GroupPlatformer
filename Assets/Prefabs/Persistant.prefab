@@ -51,3 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bca6292ddcea9be43afb0a339aefafa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  score: 0
+  lives: 3
+  scorePerExtraLife: 1000
+  ammunition: 0

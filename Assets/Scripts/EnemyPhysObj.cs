@@ -17,6 +17,8 @@ public class EnemyPhysObj : PhysicsObject {
     public float fallCheckDistance = 1;
     private Vector2 fallCheck = new Vector2(0.25f, -1f);
     private RaycastHit2D[] fallBuffer = new RaycastHit2D[16];
+    public float wallCheckDistance = 2;
+    private RaycastHit2D[] wallBuffer = new RaycastHit2D[1];
     protected int direction = -1;
     public bool isStopped = false;
     public bool isAttacked = false;
@@ -37,11 +39,16 @@ public class EnemyPhysObj : PhysicsObject {
         {
             if (Mathf.Sign(direction) != Mathf.Sign(fallCheck.x)) { fallCheck.x = -fallCheck.x; }
             Physics2D.Raycast(gameObject.transform.position, fallCheck, contactFilter, fallBuffer, fallCheckDistance);
-            if (IsEmpty(fallBuffer)) { direction = -direction; isStopped = true; }
+            Debug.DrawRay(gameObject.transform.position, fallCheck, Color.cyan);
+            if (IsEmpty(fallBuffer)) { direction = -direction; isStopped = true; transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z); }
+            Physics2D.Raycast(gameObject.transform.position, Vector2.right * direction, contactFilter, wallBuffer, wallCheckDistance);
+            Debug.DrawRay(gameObject.transform.position, Vector2.right * direction, Color.magenta);
+            if (wallBuffer[0].collider != null) { if (wallBuffer[0].collider.tag != "Player") { direction = -direction; isStopped = true; transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z); } }
             System.Array.Clear(fallBuffer, 0, fallBuffer.Length);
+            System.Array.Clear(wallBuffer, 0, wallBuffer.Length);
             if (paces)
             {
-                if (Mathf.Abs(gameObject.transform.position.x - homePosition.x) > paceDistance && home) { home = false; direction = -direction; isStopped = true; }
+                if (Mathf.Abs(gameObject.transform.position.x - homePosition.x) > paceDistance && home) { home = false; direction = -direction; isStopped = true; transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z); }
                 else if (Mathf.Abs(gameObject.transform.position.x - homePosition.x) < paceDistance && !home) { home = true; }
             }
             if (isStopped || isAttacked)
@@ -54,8 +61,6 @@ public class EnemyPhysObj : PhysicsObject {
             {
                 targetVelocity.x = speed * direction;
             }
-            if (targetVelocity.x > 0) { animator.SetBool("FaceRight", true); }
-            if (targetVelocity.x < 0) { animator.SetBool("FaceRight", false); }
         }
     }
 

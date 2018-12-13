@@ -122,7 +122,7 @@ public class PhysicsObject : MonoBehaviour {
                 if(hitBufferList[i].collider.GetComponent<PhysicsObject>() != null)
                 {
                     hitBufferList[i].collider.GetComponent<PhysicsObject>().inertia += velocity.x * resistance;
-                    if(hitBufferList[i].collider.GetComponent<EnemyPhysObj>() != null && gameObject.GetComponent<PlayerMain>() != null) { gameObject.GetComponent<PlayerMain>().TakeDamage(1); }
+                    if(hitBufferList[i].collider.tag == "Enemy" && gameObject.GetComponent<PlayerMain>() != null) { gameObject.GetComponent<PlayerMain>().TakeDamage(1); }
                 }
                 Vector2 currentNormal = hitBufferList[i].normal;
                 Debug.DrawRay(transform.position, move.normalized, Color.blue);

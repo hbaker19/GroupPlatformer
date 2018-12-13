@@ -5,6 +5,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour {
 
     public bool enemyProjectile = true;
+    public bool fakeProjectile = false;
     public int damage = 1;
     private float timer = 0f;
     private bool despawn = false;
@@ -24,8 +25,12 @@ public class Projectile : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.name == "Player" && enemyProjectile) { collision.gameObject.GetComponent<PlayerMain>().TakeDamage(damage); }
-        if(collision.gameObject.tag == "Enemy" && !enemyProjectile) { collision.gameObject.GetComponent<EnemyHealth>().TakeDamage(damage); }
+        IDamageable component = (IDamageable)collision.gameObject.GetComponent(typeof(IDamageable));
+        if (component != null && !fakeProjectile)
+        {
+            if (collision.gameObject.GetComponent<PlayerMain>() && enemyProjectile) { collision.gameObject.GetComponent<PlayerMain>().TakeDamage(damage); }
+            if (collision.gameObject.GetComponent<EnemyHealth>() && !enemyProjectile) { collision.gameObject.GetComponent<EnemyHealth>().TakeDamage(damage); }
+        }
         Despawn();
     }
 

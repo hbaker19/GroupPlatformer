@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Tilemaps;
 
 public class PlayerMain : MonoBehaviour, IDamageable {
 
@@ -32,10 +33,10 @@ public class PlayerMain : MonoBehaviour, IDamageable {
         //animator = gameObject.GetComponent<Animator>();
         winter = GameObject.Find("Winter");
         spring = GameObject.Find("Spring");
+        ChangeSeason();
         servingTray = transform.Find("ServingTray").gameObject;
         trayAnimator = servingTray.GetComponent<Animator>();
         trayAnimator.speed = atkDuration / 0.333f;
-        winter.SetActive(false);
         defaultColour = new Vector4(1, 1, 1, 1);
     }
 
@@ -73,20 +74,9 @@ public class PlayerMain : MonoBehaviour, IDamageable {
             servingTray.SetActive(true);
             trayAnimator.SetTrigger("Whack");
         }
-        if (Input.GetButtonDown("Fire3"))
+        if (Input.GetButtonDown("Fire3") && Persistant.persistant.canChange)
         {
-            if (isWinter)
-            {
-                isWinter = false;
-                winter.SetActive(true);
-                spring.SetActive(false);
-            }
-            else
-            {
-                isWinter = true;
-                spring.SetActive(true);
-                winter.SetActive(false);
-            }
+            ChangeSeason();
         }
         shootTimer += time;
         if(Input.GetButtonDown("Fire2") && shootTimer >= shootTime && Persistant.persistant.ammunition > 0)
@@ -116,6 +106,41 @@ public class PlayerMain : MonoBehaviour, IDamageable {
         color.g = g;
         color.a = a;
         gameObject.GetComponent<SpriteRenderer>().color = color;
+    }
+    private void ChangeSeason()
+    {
+        if (isWinter)
+        {
+            foreach (Transform child in spring.transform)
+            {
+                Collider2D childCollider = child.GetComponent<Collider2D>();
+                if (childCollider) { childCollider.isTrigger = false; }
+                child.GetComponent<TilemapRenderer>().enabled = true;
+            }
+            foreach (Transform child in winter.transform)
+            {
+                Collider2D childCollider = child.GetComponent<Collider2D>();
+                if (childCollider) { childCollider.isTrigger = true; }
+                child.GetComponent<TilemapRenderer>().enabled = false;
+            }
+            isWinter = false;
+        }
+        else
+        {
+            foreach (Transform child in winter.transform)
+            {
+                Collider2D childCollider = child.GetComponent<Collider2D>();
+                if (childCollider) { childCollider.isTrigger = false; }
+                child.GetComponent<TilemapRenderer>().enabled = true;
+            }
+            foreach (Transform child in spring.transform)
+            {
+                Collider2D childCollider = child.GetComponent<Collider2D>();
+                if (childCollider) { childCollider.isTrigger = true; }
+                child.GetComponent<TilemapRenderer>().enabled = false;
+            }
+            isWinter = true;
+        }
     }
 
     public void GameOver() { SceneManager.LoadScene(SceneManager.GetActiveScene().name); }

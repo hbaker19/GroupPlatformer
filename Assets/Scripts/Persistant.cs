@@ -10,6 +10,7 @@ public class Persistant : MonoBehaviour {
     private int scoreThreshold;
     public int scorePerExtraLife = 1000;
     public int ammunition = 0;
+    public bool canChange = true;
 
     private void Awake()
     {

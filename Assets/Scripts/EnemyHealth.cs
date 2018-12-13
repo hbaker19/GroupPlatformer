@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour, IDamageable {
 
-    public int health = 3;
+    public int health = 1;
     private EnemyPhysObj enemyCode;
     private Animator animator;
+    public int scoreValue = 100;
+    public bool givesAmmo = false;
+    public int ammoDrop = 3;
 
     private void Awake()
     {
@@ -29,6 +32,9 @@ public class EnemyHealth : MonoBehaviour, IDamageable {
 
     public void GameOver()
     {
+        if (gameObject.GetComponent<Explosion>()) { gameObject.GetComponent<Explosion>().Explode(); }
+        if (givesAmmo) { Persistant.persistant.ammunition += ammoDrop; }
+        Persistant.persistant.score += scoreValue;
         Destroy(gameObject);
     }
 }

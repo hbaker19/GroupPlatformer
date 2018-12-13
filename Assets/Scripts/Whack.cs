@@ -9,8 +9,12 @@ public class Whack : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.name == "Player" && enemyAttack) { collision.gameObject.GetComponent<PlayerMain>().TakeDamage(damage); }
-        if (collision.gameObject.tag == "Enemy" && !enemyAttack) { collision.gameObject.GetComponent<EnemyHealth>().TakeDamage(damage); }
+        IDamageable component = (IDamageable)collision.gameObject.GetComponent(typeof(IDamageable));
+        if (component != null)
+        {
+            if (collision.gameObject.GetComponent<PlayerMain>() && enemyAttack) { collision.gameObject.GetComponent<PlayerMain>().TakeDamage(damage); }
+            if (collision.gameObject.GetComponent<EnemyHealth>() && !enemyAttack) { collision.gameObject.GetComponent<EnemyHealth>().TakeDamage(damage); }
+        }
         if (collision.gameObject.layer == LayerMask.NameToLayer("Projectile") && ((collision.gameObject.GetComponent<Projectile>().enemyProjectile && !enemyAttack) || (!collision.gameObject.GetComponent<Projectile>().enemyProjectile && enemyAttack))) { Destroy(collision.gameObject); }
     }
 }

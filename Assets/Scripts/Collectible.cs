@@ -11,6 +11,7 @@ public class Collectible : MonoBehaviour {
     public int healthSet = 1;
     public int damageMod = 0;
     public float projectileMod = 0;
+    public int livesMod = 0;
     public Vector3 colourMod = new Vector3(1, 1, 1);
 
     private PlayerMain playerMain;
@@ -37,6 +38,7 @@ public class Collectible : MonoBehaviour {
             playerMain.defaultColour = new Vector4(colourMod.x, colourMod.y, colourMod.z, 1);
             playerMain.ChangeColour(playerMain.defaultColour);
             Persistant.persistant.spicesCollected++;
+            Persistant.persistant.lives += livesMod;
             Destroy(gameObject);
         }
     }

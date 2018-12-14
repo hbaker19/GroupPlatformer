@@ -78,7 +78,7 @@ Transform:
   m_GameObject: {fileID: 1632368785441638}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0.05, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_Children: []
   m_Father: {fileID: 4654140860474064}
   m_RootOrder: 0
@@ -314,8 +314,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isWinter: 0
   isAttack: 0
-  atkDuration: 0.1
-  damage: 1
+  atkDuration: 0.2
   health: 3
   shootTime: 0.25
   projectileSpeed: 10
@@ -325,6 +324,7 @@ MonoBehaviour:
   gameTime: 180
   gameoverDuration: 3
   scoreLossOnDeath: 1000
+  ammunition: 0
   invuln: 0
   invulnTime: 3
 --- !u!114 &114914884185689630

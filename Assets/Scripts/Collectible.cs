@@ -32,10 +32,11 @@ public class Collectible : MonoBehaviour {
             playerMain.projectileSpeed += projectileMod;
             playerMove.speed += speedMod;
             playerMove.jumpTakeOffSpeed += jumpMod;
-            colourMod += (Vector3)playerMain.defaultColour;
             colourMod.Normalize();
+            colourMod += (Vector3)playerMain.defaultColour.normalized;
             playerMain.defaultColour = new Vector4(colourMod.x, colourMod.y, colourMod.z, 1);
             playerMain.ChangeColour(playerMain.defaultColour);
+            Persistant.persistant.spicesCollected++;
             Destroy(gameObject);
         }
     }

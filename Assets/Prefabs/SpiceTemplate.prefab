@@ -96,7 +96,7 @@ MonoBehaviour:
   healthSet: 1
   damageMod: 0
   projectileMod: 0
-  colourMod: {x: 0, y: 0, z: 0}
+  colourMod: {x: 1, y: 1, z: 1}
 --- !u!212 &212389284296429164
 SpriteRenderer:
   m_ObjectHideFlags: 1

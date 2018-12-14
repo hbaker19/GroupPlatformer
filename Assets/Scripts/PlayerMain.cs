@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 public class PlayerMain : MonoBehaviour, IDamageable {
 
@@ -31,8 +32,10 @@ public class PlayerMain : MonoBehaviour, IDamageable {
     public bool invuln = false;
     private float invulnTimer = 0f;
     public float invulnTime = 2f;
-    //private Animator animator;
     private Animator trayAnimator;
+
+    private Canvas canvas;
+    private Slider healthSlider;
 
     private void Awake()
     {
@@ -45,6 +48,9 @@ public class PlayerMain : MonoBehaviour, IDamageable {
         trayAnimator.speed = atkDuration / 0.333f;
         defaultColour = new Vector4(1, 1, 1, 1);
         playerMove = gameObject.GetComponent<PlayerPhysObj>();
+        canvas = gameObject.GetComponentInChildren<Canvas>();
+        healthSlider = canvas.transform.Find("HealthSlider").GetComponent<Slider>();
+        healthSlider.value = health;
     }
 
     private void Update()
@@ -180,7 +186,9 @@ public class PlayerMain : MonoBehaviour, IDamageable {
     {
         if (!invuln)
         {
-            invuln = true; health--;
+            invuln = true;
+            health--;
+            healthSlider.value = health;
             if (health <= 0)
             {
                 GameOver();

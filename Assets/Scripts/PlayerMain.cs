@@ -36,6 +36,8 @@ public class PlayerMain : MonoBehaviour, IDamageable {
 
     private Canvas canvas;
     private Slider healthSlider;
+    private Text lifeText;
+    private Text timeText;
 
     private void Awake()
     {
@@ -51,10 +53,14 @@ public class PlayerMain : MonoBehaviour, IDamageable {
         canvas = gameObject.GetComponentInChildren<Canvas>();
         healthSlider = canvas.transform.Find("HealthSlider").GetComponent<Slider>();
         healthSlider.value = health;
+        lifeText = canvas.transform.Find("LivesImage/Text").GetComponent<Text>();
+        timeText = canvas.transform.Find("TimeImage/Text").GetComponent<Text>();
     }
 
     private void Update()
     {
+        lifeText.text = "LIVES: " + Persistant.persistant.lives;
+        timeText.text = "" + (int)gameTime;
         time = Time.deltaTime;
         if (gameover)
         {
@@ -118,6 +124,8 @@ public class PlayerMain : MonoBehaviour, IDamageable {
                 shootTimer = 0;
                 ammunition--;
             }
+            gameTime -= time;
+            if(gameTime <= 0) { GameOver(); }
         }
     }
 

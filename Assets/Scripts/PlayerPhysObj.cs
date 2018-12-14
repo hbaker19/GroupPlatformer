@@ -31,6 +31,7 @@ public class PlayerPhysObj : PhysicsObject {
             move.y = Input.GetAxis("Vertical");
             if (Input.GetButtonDown("Jump") && grounded && canJump)
             {
+                animator.SetTrigger("Jump");
                 velocity.y += jumpTakeOffSpeed;
                 canJump = false;
                 isJumping = true;

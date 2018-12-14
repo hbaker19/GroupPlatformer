@@ -7,10 +7,11 @@ public class Collectible : MonoBehaviour {
     public int score = 100;
     public float speedMod = 0;
     public float jumpMod = 0;
+    public bool changeHealth = false;
     public int healthSet = 1;
     public int damageMod = 0;
     public float projectileMod = 0;
-    public Vector4 colourMod = new Vector4(1, 1, 1, 1);
+    public Vector3 colourMod = new Vector3(1, 1, 1);
 
     private PlayerMain playerMain;
     private PlayerPhysObj playerMove;
@@ -25,7 +26,17 @@ public class Collectible : MonoBehaviour {
     {
         if(collision.gameObject.name == "Player")
         {
-
+            if (changeHealth) { playerMain.health = healthSet; }
+            Persistant.persistant.score += score;
+            playerMain.GetComponentInChildren<Whack>(true).damage += damageMod;
+            playerMain.projectileSpeed += projectileMod;
+            playerMove.speed += speedMod;
+            playerMove.jumpTakeOffSpeed += jumpMod;
+            colourMod += (Vector3)playerMain.defaultColour;
+            colourMod.Normalize();
+            playerMain.defaultColour = new Vector4(colourMod.x, colourMod.y, colourMod.z, 1);
+            playerMain.ChangeColour(playerMain.defaultColour);
+            Destroy(gameObject);
         }
     }
 }

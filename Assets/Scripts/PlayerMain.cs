@@ -10,7 +10,6 @@ public class PlayerMain : MonoBehaviour, IDamageable {
     public bool isAttack = false;
     private float atkTimer = 0f;
     public float atkDuration = 0.25f;
-    public int damage = 1;
     public int health = 3;
     private GameObject winter;
     private GameObject spring;
@@ -75,7 +74,7 @@ public class PlayerMain : MonoBehaviour, IDamageable {
                     invulnTimer = 0f;
                     ChangeColour(defaultColour);
                 }
-                if ((int)(invulnTimer * 10) % 2 == 1) { ChangeColour(defaultColour.x, defaultColour.y, defaultColour.z, defaultColour.w - 0.2f); }
+                if ((int)(invulnTimer * 10) % 2 == 1) { ChangeColour(defaultColour.x, defaultColour.y, defaultColour.z, defaultColour.w - (defaultColour.w * 0.2f)); }
                 if ((int)(invulnTimer * 10) % 2 == 0) { ChangeColour(defaultColour); }
             }
             if (isAttack)
@@ -116,13 +115,13 @@ public class PlayerMain : MonoBehaviour, IDamageable {
         }
     }
 
-    private void ChangeColour(Vector4 colour)
+    public void ChangeColour(Vector4 colour)
     {
         Color color = gameObject.GetComponent<SpriteRenderer>().color;
         color = colour;
         gameObject.GetComponent<SpriteRenderer>().color = color;
     }
-    private void ChangeColour(float r, float g, float b, float a)
+    public void ChangeColour(float r, float g, float b, float a)
     {
         Color color = gameObject.GetComponent<SpriteRenderer>().color;
         color.r = r;

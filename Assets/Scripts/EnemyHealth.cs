@@ -33,7 +33,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable {
     public void GameOver()
     {
         if (gameObject.GetComponent<Explosion>()) { gameObject.GetComponent<Explosion>().Explode(); }
-        if (givesAmmo) { Persistant.persistant.ammunition += ammoDrop; }
+        if (givesAmmo) { GameObject.Find("Player").GetComponent<PlayerMain>().ammunition += ammoDrop; }
         Persistant.persistant.score += scoreValue;
         Destroy(gameObject);
     }

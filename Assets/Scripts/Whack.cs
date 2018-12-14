@@ -15,6 +15,6 @@ public class Whack : MonoBehaviour {
             if (collision.gameObject.GetComponent<PlayerMain>() && enemyAttack) { collision.gameObject.GetComponent<PlayerMain>().TakeDamage(damage); }
             if (collision.gameObject.GetComponent<EnemyHealth>() && !enemyAttack) { collision.gameObject.GetComponent<EnemyHealth>().TakeDamage(damage); }
         }
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Projectile") && ((collision.gameObject.GetComponent<Projectile>().enemyProjectile && !enemyAttack) || (!collision.gameObject.GetComponent<Projectile>().enemyProjectile && enemyAttack))) { Destroy(collision.gameObject); }
+        if ((collision.gameObject.layer == LayerMask.NameToLayer("Projectile") && !collision.gameObject.GetComponent<Projectile>().fakeProjectile) && ((collision.gameObject.GetComponent<Projectile>().enemyProjectile && !enemyAttack) || (!collision.gameObject.GetComponent<Projectile>().enemyProjectile && enemyAttack))) { Destroy(collision.gameObject); }
     }
 }

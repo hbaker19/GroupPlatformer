@@ -9,7 +9,6 @@ public class Persistant : MonoBehaviour {
     public int lives = 3;
     private int scoreThreshold;
     public int scorePerExtraLife = 1000;
-    public int ammunition = 0;
     public bool canChange = true;
 
     private void Awake()
@@ -32,7 +31,6 @@ public class Persistant : MonoBehaviour {
         if(Input.GetKeyDown(KeyCode.L)) { Debug.Log(lives); }
         if(Input.GetKeyDown(KeyCode.Equals)) { score += 100; }
         if (Input.GetKeyDown(KeyCode.Minus)) { score -= 100; }
-        if(Input.GetKeyDown(KeyCode.Ampersand)) { ammunition++; }
         if (score >= scoreThreshold)
         {
             lives++;

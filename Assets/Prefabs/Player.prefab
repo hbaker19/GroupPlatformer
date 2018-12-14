@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114610847545238010}
   - component: {fileID: 50492844220371574}
   - component: {fileID: 70183900620373230}
+  - component: {fileID: 114290354209899944}
   - component: {fileID: 95711107207982296}
   m_Layer: 8
   m_Name: Player
@@ -286,6 +287,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyAttack: 0
   damage: 1
+--- !u!114 &114290354209899944
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1223920546705906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a88663c418540c40ac79ff49f62d246, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectileSpeed: 5
+  explodeProjectile: {fileID: 1767174208873424, guid: 8a89fd317b3ec04448afbff21f51c02f,
+    type: 2}
 --- !u!114 &114610847545238010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -307,6 +322,9 @@ MonoBehaviour:
   nuggetProjectile: {fileID: 1767174208873424, guid: b569c58d413676c4e960d370e30f2cda,
     type: 2}
   defaultColour: {x: 0, y: 0, z: 0, w: 0}
+  gameTime: 180
+  gameoverDuration: 3
+  scoreLossOnDeath: 1000
   invuln: 0
   invulnTime: 3
 --- !u!114 &114914884185689630

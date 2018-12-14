@@ -21,6 +21,13 @@ public class PlayerMain : MonoBehaviour, IDamageable {
     private float time;
     public Vector4 defaultColour;
     private GameObject servingTray;
+    public float gameTime = 180f;
+    private bool gameover = false;
+    public float gameoverDuration = 3f;
+    private float gameoverTime = 0f;
+    public int scoreLossOnDeath = 1000;
+    private PlayerPhysObj playerMove;
+    public int ammunition = 0;
 
     public bool invuln = false;
     private float invulnTimer = 0f;
@@ -38,57 +45,74 @@ public class PlayerMain : MonoBehaviour, IDamageable {
         trayAnimator = servingTray.GetComponent<Animator>();
         trayAnimator.speed = atkDuration / 0.333f;
         defaultColour = new Vector4(1, 1, 1, 1);
+        playerMove = gameObject.GetComponent<PlayerPhysObj>();
     }
 
     private void Update()
     {
         time = Time.deltaTime;
-        if (invuln)
+        if (gameover)
         {
-            invulnTimer += time;
-            if(invulnTimer >= invulnTime)
+            playerMove.isStopped = true;
+            gameoverTime += time;
+            if(gameoverTime >= gameoverDuration)
             {
-                invuln = false;
-                invulnTimer = 0f;
-                ChangeColour(defaultColour);
-            }
-            if((int)(invulnTimer * 10) % 2 == 1) { ChangeColour(defaultColour.x, defaultColour.y, defaultColour.z, defaultColour.w - 0.2f); }
-            if((int)(invulnTimer * 10) % 2 == 0) { ChangeColour(defaultColour); }
-        }
-        if (isAttack)
-        {
-            atkTimer += time;
-            servingTray.transform.rotation = Quaternion.Lerp(Quaternion.Euler(0, 0, 90 * gameObject.GetComponent<PlayerPhysObj>().direction), Quaternion.Euler(0, 0, 0), atkTimer / atkDuration);
-            servingTray.transform.localPosition = Vector3.Slerp(new Vector3(0.05f * gameObject.GetComponent<PlayerPhysObj>().direction, 0, 0), new Vector3(0.1f * gameObject.GetComponent<PlayerPhysObj>().direction, -0.05f, 0), atkTimer / atkDuration);
-            if (atkTimer >= atkDuration)
-            {
-                atkTimer = 0;
-                isAttack = false;
-                servingTray.SetActive(false);
+                gameover = false;
+                Persistant.persistant.lives--;
+                Persistant.persistant.score -= scoreLossOnDeath;
+                if (Persistant.persistant.lives <= 0) { SceneManager.LoadScene(SceneManager.GetActiveScene().name); }
+                else { SceneManager.LoadScene(SceneManager.GetActiveScene().name); }
             }
         }
-        if (Input.GetButtonDown("Fire1") && !isAttack)
+        else
         {
-            gameObject.GetComponent<PlayerPhysObj>().isStopped = true;
-            isAttack = true;
-            servingTray.SetActive(true);
-            trayAnimator.SetTrigger("Whack");
-        }
-        if (Input.GetButtonDown("Fire3") && Persistant.persistant.canChange)
-        {
-            ChangeSeason();
-        }
-        shootTimer += time;
-        if(Input.GetButtonDown("Fire2") && shootTimer >= shootTime && Persistant.persistant.ammunition > 0)
-        {
-            var mousePos = Input.mousePosition;
-            mousePos.z = 10;
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(mousePos);
-            mousePosition.z = 0;
-            GameObject projectile = (GameObject)Instantiate(nuggetProjectile, gameObject.transform.position + (mousePosition - gameObject.transform.position).normalized, Quaternion.identity);
-            projectile.GetComponent<Rigidbody2D>().velocity += ((Vector2)mousePosition - (Vector2)gameObject.transform.position).normalized * projectileSpeed;
-            shootTimer = 0;
-            Persistant.persistant.ammunition--;
+            if (invuln)
+            {
+                invulnTimer += time;
+                if (invulnTimer >= invulnTime)
+                {
+                    invuln = false;
+                    invulnTimer = 0f;
+                    ChangeColour(defaultColour);
+                }
+                if ((int)(invulnTimer * 10) % 2 == 1) { ChangeColour(defaultColour.x, defaultColour.y, defaultColour.z, defaultColour.w - 0.2f); }
+                if ((int)(invulnTimer * 10) % 2 == 0) { ChangeColour(defaultColour); }
+            }
+            if (isAttack)
+            {
+                atkTimer += time;
+                servingTray.transform.rotation = Quaternion.Lerp(Quaternion.Euler(0, 0, 90 * gameObject.GetComponent<PlayerPhysObj>().direction), Quaternion.Euler(0, 0, 0), atkTimer / atkDuration);
+                servingTray.transform.localPosition = Vector3.Slerp(new Vector3(0.05f * gameObject.GetComponent<PlayerPhysObj>().direction, 0, 0), new Vector3(0.1f * gameObject.GetComponent<PlayerPhysObj>().direction, -0.05f, 0), atkTimer / atkDuration);
+                if (atkTimer >= atkDuration)
+                {
+                    atkTimer = 0;
+                    isAttack = false;
+                    servingTray.SetActive(false);
+                }
+            }
+            if (Input.GetButtonDown("Fire1") && !isAttack)
+            {
+                playerMove.isStopped = true;
+                isAttack = true;
+                servingTray.SetActive(true);
+                trayAnimator.SetTrigger("Whack");
+            }
+            if (Input.GetButtonDown("Fire3") && Persistant.persistant.canChange)
+            {
+                ChangeSeason();
+            }
+            shootTimer += time;
+            if (Input.GetButtonDown("Fire2") && shootTimer >= shootTime && ammunition > 0)
+            {
+                var mousePos = Input.mousePosition;
+                mousePos.z = 10;
+                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(mousePos);
+                mousePosition.z = 0;
+                GameObject projectile = (GameObject)Instantiate(nuggetProjectile, gameObject.transform.position + (mousePosition - gameObject.transform.position).normalized, Quaternion.identity);
+                projectile.GetComponent<Rigidbody2D>().velocity += ((Vector2)mousePosition - (Vector2)gameObject.transform.position).normalized * projectileSpeed;
+                shootTimer = 0;
+                ammunition--;
+            }
         }
     }
 
@@ -143,6 +167,25 @@ public class PlayerMain : MonoBehaviour, IDamageable {
         }
     }
 
-    public void GameOver() { SceneManager.LoadScene(SceneManager.GetActiveScene().name); }
-    public void TakeDamage(int damage) { if (!invuln) { invuln = true; health--; if (health <= 0) { GameOver(); } } }
+    public void GameOver()
+    {
+        if (!gameover)
+        {
+            gameObject.GetComponent<Explosion>().Explode();
+            gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            gameover = true;
+        }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (!invuln)
+        {
+            invuln = true; health--;
+            if (health <= 0)
+            {
+                GameOver();
+            }
+        }
+    }
 }

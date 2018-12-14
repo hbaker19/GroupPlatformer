@@ -38,6 +38,7 @@ public class PlayerMain : MonoBehaviour, IDamageable {
     private Slider healthSlider;
     private Text lifeText;
     private Text timeText;
+    private Canvas pauseCanvas;
 
     private void Awake()
     {
@@ -50,11 +51,12 @@ public class PlayerMain : MonoBehaviour, IDamageable {
         trayAnimator.speed = atkDuration / 0.333f;
         defaultColour = new Vector4(1, 1, 1, 1);
         playerMove = gameObject.GetComponent<PlayerPhysObj>();
-        canvas = gameObject.GetComponentInChildren<Canvas>();
+        canvas = gameObject.transform.Find("PlayerCanvas").GetComponent<Canvas>();
         healthSlider = canvas.transform.Find("HealthSlider").GetComponent<Slider>();
         healthSlider.value = health;
         lifeText = canvas.transform.Find("LivesImage/Text").GetComponent<Text>();
         timeText = canvas.transform.Find("TimeImage/Text").GetComponent<Text>();
+        pauseCanvas = gameObject.transform.Find("PauseCanvas").GetComponent<Canvas>();
     }
 
     private void Update()
@@ -62,6 +64,7 @@ public class PlayerMain : MonoBehaviour, IDamageable {
         lifeText.text = "LIVES: " + Persistant.persistant.lives;
         timeText.text = "" + (int)gameTime;
         time = Time.deltaTime;
+        if(Input.GetKeyDown(KeyCode.Escape) || Input.GetKey(KeyCode.P)) { TogglePause(); }
         if (gameover)
         {
             playerMove.isStopped = true;
@@ -69,8 +72,6 @@ public class PlayerMain : MonoBehaviour, IDamageable {
             if(gameoverTime >= gameoverDuration)
             {
                 gameover = false;
-                Persistant.persistant.lives--;
-                Persistant.persistant.score -= scoreLossOnDeath;
                 if (Persistant.persistant.lives <= 0) { SceneManager.LoadScene(SceneManager.GetActiveScene().name); }
                 else { SceneManager.LoadScene(SceneManager.GetActiveScene().name); }
             }
@@ -129,6 +130,12 @@ public class PlayerMain : MonoBehaviour, IDamageable {
         }
     }
 
+    public void TogglePause()
+    {
+        pauseCanvas.GetComponent<Buttons>().Pause();
+        if(Time.timeScale != 0) { pauseCanvas.enabled = false; }
+        else { pauseCanvas.enabled = true; }
+    }
     public void ChangeColour(Vector4 colour)
     {
         Color color = gameObject.GetComponent<SpriteRenderer>().color;
@@ -184,6 +191,8 @@ public class PlayerMain : MonoBehaviour, IDamageable {
     {
         if (!gameover)
         {
+            Persistant.persistant.lives--;
+            Persistant.persistant.score -= scoreLossOnDeath;
             gameObject.GetComponent<Explosion>().Explode();
             gameObject.GetComponent<SpriteRenderer>().enabled = false;
             gameover = true;

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class textpop : MonoBehaviour {
 
-    
 
+    public string text;
     public bool showText = false, someRandomCondition = true;
     public float currentTime = 0.0f, executedTime = 0.0f, timeToWait = 5.0f;
 
@@ -35,7 +35,7 @@ public class textpop : MonoBehaviour {
     void OnGUI()
     {
         if (showText)
-            GUI.Label(new Rect(300, 300, 400, 300), "Some Random Text");
+            GUI.Label(new Rect(300, 300, 400, 300), text);
     }
 
    

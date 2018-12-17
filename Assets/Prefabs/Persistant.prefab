@@ -53,5 +53,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   score: 0
   lives: 3
-  scorePerExtraLife: 1000
-  ammunition: 0
+  scorePerExtraLife: 5000
+  canChange: 1
+  spicesCollected: 0

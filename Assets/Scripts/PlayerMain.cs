@@ -38,6 +38,7 @@ public class PlayerMain : MonoBehaviour, IDamageable {
     private Slider healthSlider;
     private Text lifeText;
     private Text timeText;
+    private Text scoreText;
     private Text nuggetText;
     private Canvas pauseCanvas;
 
@@ -57,6 +58,7 @@ public class PlayerMain : MonoBehaviour, IDamageable {
         healthSlider.value = health;
         lifeText = canvas.transform.Find("LivesImage/Text").GetComponent<Text>();
         timeText = canvas.transform.Find("TimeImage/Text").GetComponent<Text>();
+        scoreText = canvas.transform.Find("ScoreImage/Text").GetComponent<Text>();
         nuggetText = canvas.transform.Find("NuggetImage/Text").GetComponent<Text>();
         pauseCanvas = gameObject.transform.Find("PauseCanvas").GetComponent<Canvas>();
     }
@@ -66,6 +68,7 @@ public class PlayerMain : MonoBehaviour, IDamageable {
         lifeText.text = "LIVES: " + Persistant.persistant.lives;
         nuggetText.text = "NUGGETS: " + ammunition;
         timeText.text = "" + (int)gameTime;
+        scoreText.text = "SCORE: " + (int)Persistant.persistant.score;
         time = Time.deltaTime;
         if(Input.GetKeyDown(KeyCode.Escape) || Input.GetKey(KeyCode.P)) { TogglePause(); }
         if (Time.timeScale != 0)
